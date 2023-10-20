@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Timezone Converter</title>
+</head>
+<body>
+  <h1>Timezone Converter</h1>
+
+  <div>
+    <select id="country">
+      <option value="US">United States</option>
+      <option value="UK">United Kingdom</option>
+      <option value="India">India</option>
+    </select>
+  </div>
+
+  <div>
+    <input type="radio" name="ampm" id="am" value="am" checked>
+    <label for="am">AM</label>
+    <input type="radio" name="ampm" id="pm" value="pm">
+    <label for="pm">PM</label>
+  </div>
+
+  <div>
+    <input type="time" id="time">
+  </div>
+
+  <div>
+    <button id="convert">Convert</button>
+  </div>
+
+  <div id="result"></div>
+
+  <script>
+    document.getElementById("convert").addEventListener("click", function() {
+      var country = document.getElementById("country").value;
+      var ampm = document.querySelector("input[name='ampm']:checked").value;
+      var time = document.getElementById("time").value;
+
+      // Convert the time to UTC
+      var utcOffset = new Date().getTimezoneOffset() * 60000;
+      var utcTime = new Date(time).getTime() + utcOffset;
+
+      // Convert the UTC time to the desired timezone
+      var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      var convertedTime = new Date(utcTime).toLocaleTimeString(timezone);
+
+      // Display the converted time
+      document.getElementById("result").innerHTML = convertedTime;
+    });
+  </script>
+</body>
+</html>
